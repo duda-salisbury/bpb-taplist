@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- Standard Meta Stuff -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="BPB Taplist">
+        
+        <title>BPB Taplist</title>
+    </head>
+    <body>
+
+        <table id="taplist">
+            
+        </table>
+
+
+        <script>
+            async function getTaplistData() {
+                const g = await fetch(
+                    `https://sheets.googleapis.com/v4/spreadsheets/1jj3AgZEaskPjFVqp9FAQtXFMImQ19BFIRzBkVPK3RCg/values/A1:E1000?key=AIzaSyAhYpJikwJg9_Kt1bYn7E_cXaqKt0yDIug`
+                )
+
+                const data = await g.json()
+
+                for (var i = 0; i<data.values.length; i++) {
+                    var row = data.values[i]
+                    var html = `
+                        <tr>
+                            <td>${row[0]}</td>
+                            <td>${row[1]}</td>
+                            <td>${row[2]}</td>
+                            <td>${row[3]}</td>
+                            <td>${row[4]}</td>
+                        </tr>
+                    `
+                    document.getElementById("taplist").innerHTML += html
+                }
+
+            }
+
+            getTaplistData();
+        </script>
+    </body>
+</html>
