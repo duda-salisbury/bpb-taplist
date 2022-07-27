@@ -11,9 +11,10 @@
     </head>
     <body>
 
-        <table id="taplist">
-            
-        </table>
+        <div id="taplist">
+
+        </div>
+        
 
 
         <script>
@@ -24,18 +25,36 @@
 
                 const data = await g.json()
 
-                for (var i = 0; i<data.values.length; i++) {
-                    var row = data.values[i]
-                    var html = `
-                        <tr>
-                            <td>${row[0]}</td>
-                            <td>${row[1]}</td>
-                            <td>${row[2]}</td>
-                            <td>${row[3]}</td>
-                            <td>${row[4]}</td>
-                        </tr>
-                    `
-                    document.getElementById("taplist").innerHTML += html
+                for (var i = 1; i<data.values.length; i++) {
+                    var row = data.values[i];
+
+                    var type = row[0];
+
+                    // First, check to see if div id type exists. If not, create it.
+                    if (!document.getElementById(type)) {
+                        var newDiv = document.createElement("div");
+                        newDiv.id = type;
+                        newDiv.classList.add("beer-type");
+                        newDiv.innerHTML = "<h1>" + type + "</h1>";
+                        document.getElementById("taplist").appendChild(newDiv);
+                    }
+
+
+
+
+
+                    var name = row[1];
+                    var subhead = row[2];
+                    var abv = row[3];
+                    var description = row[4];
+
+                    // Now, populate the div#type with name, subhead, abv, and description.
+                    var beerWrap = document.createElement("div");
+                    beerWrap.innerHTML = `<h2>${name}</h2><h4>${subhead} - ${abv}%</h4><p>${description}</p>`;
+                    document.getElementById(type).appendChild(beerWrap);
+                    
+
+                
                 }
 
             }
