@@ -14,14 +14,37 @@
             body{
                 background-color: #212121;
                 color:#fff;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            th {
                 font-family: "Oswald", sans-serif;
+                text-transform: uppercase!important;
+                font-weight: 500!important;
+            }
+
+            td {
+                font-size: 18px;
+            }
+
+            tr:hover td {
+                background-color:rgba(200,200,200,0.5);
+                
+            }
+
+            #taplist_filter{
+                display:none;
+            }
+
+            #dataTables_info{
+                display:none;
             }
         </style>
         <title>BPB Taplist</title>
     </head>
     <body>
 
-        <table id="taplist">
+        <table class="hover" id="taplist">
            
             
         </table>
@@ -59,7 +82,7 @@
 
                     var name = row[1];
                     var subhead = row[2];
-                    var abv = row[3];
+                    row[3] = row[3] + "%";
                     var description = row[4];
 
                     rows.push(row);
@@ -75,6 +98,7 @@
                 $("#taplist").DataTable({
                     data: rows,
                     paging: false,
+                    search:false,
                     columns: [
                         { title: "Type" },
                         { title: "Name" },
