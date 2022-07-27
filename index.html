@@ -6,19 +6,26 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="BPB Taplist">
-        
+        <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+        <!--Jquery CDN JS-->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <title>BPB Taplist</title>
     </head>
     <body>
 
-        <div id="taplist">
-
-        </div>
+        <table id="taplist">
+           
+            
+        </table>
         
 
 
         <script>
+            
+
+
             async function getTaplistData() {
+                var rows = [];
                 const g = await fetch(
                     `https://sheets.googleapis.com/v4/spreadsheets/1jj3AgZEaskPjFVqp9FAQtXFMImQ19BFIRzBkVPK3RCg/values/A1:E1000?key=AIzaSyAhYpJikwJg9_Kt1bYn7E_cXaqKt0yDIug`
                 )
@@ -31,14 +38,13 @@
                     var type = row[0];
 
                     // First, check to see if div id type exists. If not, create it.
-                    if (!document.getElementById(type)) {
-                        var newDiv = document.createElement("div");
-                        newDiv.id = type;
-                        newDiv.classList.add("beer-type");
-                        newDiv.innerHTML = "<h1>" + type + "</h1>";
-                        document.getElementById("taplist").appendChild(newDiv);
-                    }
-
+                    // if (!document.getElementById(type)) {
+                    //     var newDiv = document.createElement("div");
+                    //     newDiv.id = type;
+                    //     newDiv.classList.add("beer-type");
+                    //     newDiv.innerHTML = "<h1>" + type + "</h1>";
+                    //     document.getElementById("taplist").appendChild(newDiv);
+                    // }
 
 
 
@@ -48,18 +54,39 @@
                     var abv = row[3];
                     var description = row[4];
 
-                    // Now, populate the div#type with name, subhead, abv, and description.
-                    var beerWrap = document.createElement("div");
-                    beerWrap.innerHTML = `<h2>${name}</h2><h4>${subhead} - ${abv}%</h4><p>${description}</p>`;
-                    document.getElementById(type).appendChild(beerWrap);
-                    
+                    rows.push(row);
 
-                
+
+                    // // Now, populate the div#type with name, subhead, abv, and description.
+                    // var beerWrap = document.createElement("div");
+                    // beerWrap.innerHTML = `<h2>${name}</h2><h4>${subhead} - ${abv}%</h4><p>${description}</p>`;
+                    // document.getElementById(type).appendChild(beerWrap);
+                    
                 }
 
+                $("#taplist").DataTable({
+                    data: rows,
+                    columns: [
+                        { title: "Type" },
+                        { title: "Name" },
+                        { title: "Details" },
+                        { title: "ABV" },
+                        { title: "Description" }
+                    ]
+                });
             }
 
             getTaplistData();
+
         </script>
+
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+        <script>
+
+
+
+        </script>
+
     </body>
 </html>
